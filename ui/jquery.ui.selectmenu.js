@@ -508,12 +508,14 @@ $.widget("ui.selectmenu", {
 				this.list.appendTo('body');
 			}
 			this.list.addClass(self.widgetBaseClass + '-open')
-				.attr('aria-hidden', false)
-				.find('li:not(.' + self.widgetBaseClass + '-group):eq(' + this._selectedIndex() + ') a')[0].focus();
+				.attr('aria-hidden', false);
+			// (Philipp C. Adrian) FIX IE: Refreshing position before focusing the element. 
+			// Prevents IE from scrolling to the focused element before it is in position.
+			this._refreshPosition();
+ 			this.list.find('li:not(.' + self.widgetBaseClass + '-group):eq(' + this._selectedIndex() + ') a')[0].focus();
 			if ( this.options.style == "dropdown" ) {
 				this.newelement.removeClass('ui-corner-all').addClass('ui-corner-top');
 			}
-			this._refreshPosition();
 			this._trigger("open", event, this._uiHash());
 		}
 	},
